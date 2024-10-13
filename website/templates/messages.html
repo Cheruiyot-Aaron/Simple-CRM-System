@@ -1,0 +1,8 @@
+<!-- my_template.html -->
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li class="alert {{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
