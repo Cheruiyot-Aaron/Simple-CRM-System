@@ -15,7 +15,7 @@ def home(request):
 		user = authenticate(request, username=username, password=password)
 		if user is not None:
 			login(request, user)
-			messages.success(request, "Welcome! You Have Been Logged In!")
+			messages.success(request, f"Welcome {user.username}! You Have Been Logged In!")
 			return redirect('home')
 		else:
 			messages.error(request, "There Was An Error Logging In, Please Try Again...")
