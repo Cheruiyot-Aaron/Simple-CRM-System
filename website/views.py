@@ -18,7 +18,7 @@ def home(request):
 			messages.success(request, f"Welcome {user.username}! You Have Been Logged In!")
 			return redirect('home')
 		else:
-			messages.error(request, "There Was An Error Logging In, Please Try Again...")
+			messages.warning(request, "There Was An Error Logging In, Please Try Again...")
 			return redirect('home')
 	else:
 		return render(request, 'home.html', {'records':records})
@@ -79,13 +79,38 @@ def add_record(request):
 		if request.method == "POST":
 			if form.is_valid():
 				add_record = form.save()
-				messages.success(request, "Record Added...")
+				messages.success(request, "Record Added Sucessfully...")
 				return redirect('home')
 		return render(request, 'add_record.html', {'form':form})
 	else:
-		messages.success(request, "You Must Be Logged In...")
+		messages.error(request, "You Must Be Logged In...")
 		return redirect('home')
 
+def add_record(request):
+	form = AddRecordForm(request.POST or None)
+	if request.user.is_authenticated:
+		if request.method == "POST":
+			if form.is_valid():
+				add_record = form.save()
+				messages.success(request, "Record Added Sucessfully...")
+				return redirect('home')
+		return render(request, 'add_record.html', {'form':form})
+	else:
+		messages.error(request, "You Must Be Logged In...")
+		return redirect('home')
+
+def add_book(request):
+	form = AddRecordForm(request.POST or None)
+	if request.user.is_authenticated:
+		if request.method == "POST":
+			if form.is_valid():
+				add_book = form.save()
+				messages.success(request, "Book Added Sucessfully...")
+				return redirect('home')
+		return render(request, 'add_book.html', {'form':form})
+	else:
+		messages.error(request, "You Must Be Logged In...")
+		return redirect('home')
 
 def update_record(request, pk):
 	if request.user.is_authenticated:
@@ -97,6 +122,6 @@ def update_record(request, pk):
 			return redirect('home')
 		return render(request, 'update_record.html', {'form':form})
 	else:
-		messages.success(request, "You Must Be Logged In...")
+		messages.error(request, "You Must Be Logged In...")
 		return redirect('home')
 
